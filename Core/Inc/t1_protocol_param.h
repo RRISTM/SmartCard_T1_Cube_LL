@@ -31,8 +31,8 @@
 #define __T1_PROTOCOL_PARAM_H
 
 /* Includes ------------------------------------------------------------------*/
-// #include "legacy.h"
-// #include "ll_includes.h"
+ #include "legacy.h"
+ #include "ll_includes.h"
 #include "stm32f0xx_hal_conf.h"
 #include "t1_protocol.h"
 #include "atr.h"

@@ -126,12 +126,12 @@ int main(void)
   MX_RTC_Init();
   /* USER CODE BEGIN 2 */
   /* Loop while no Smartcard is detected */  
-  while(CardInserted == 0)
-  {
-  }
+//  while(CardInserted == 0)
+//  {
+//  }
 
   /* Insert delay of 100ms for signal stabilization */
-  Delay(100);
+  HAL_Delay(100);
     
   /* Configure the USART for SmartCard application and get the selected frequency */
   CardClkFreq = SC_USARTConfig(&etu_usec,&SC_baud);
@@ -321,6 +321,7 @@ int main(void)
     {     
       /* ---APDU response: R_APDU, ResponseStatus--- */     
     }
+    
     
     /*------- Send APDU: Read File Command ---------------------------------------*/     
     

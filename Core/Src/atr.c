@@ -470,7 +470,7 @@ void ATR_GetDefaultProtocol(ATR_TypeDef *atr, int8_t *protocol)
 
 	if (PROTOCOL_UNSET == *protocol)
 	{
-#ifdef DEBUG	     
+#ifdef DEBUG_
             DEBUG("No default protocol found in ATR. Using T=0\n\r");
 #endif           
 	    *protocol = ATR_PROTOCOL_TYPE_T0;

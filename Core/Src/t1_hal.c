@@ -88,21 +88,12 @@ uint32_t SC_USARTConfig(uint32_t* etu_us, uint32_t* baud)
 {
   LL_USART_ClockInitTypeDef USART_ClockInitStructure;
   NVIC_InitTypeDef NVIC_InitStructure;
-  LL_RCC_ClocksTypeDef RCC_ClocksStatus;
   uint8_t usart_presc = 0;
   uint32_t pclk_frequency = 0;
   __IO uint32_t SC_Clk;
   uint32_t etu, baudrate;
   
-  LL_RCC_GetSystemClocksFreq(&RCC_ClocksStatus);
-  
-  if(SC_USART == USART1) /* USART1 on APB2 */
-  {
-  }
-  else
-  {
-    pclk_frequency = RCC_ClocksStatus.PCLK1_Frequency;
-  }
+  pclk_frequency = HAL_RCCEx_GetPeriphCLKFreq(RCC_PERIPHCLK_USART1);
   
   for (usart_presc=1;usart_presc<32;usart_presc++)
   {
@@ -120,7 +111,8 @@ uint32_t SC_USARTConfig(uint32_t* etu_us, uint32_t* baud)
   *baud = baudrate;
   
   /* Enable USART clock */
-  SC_USART_APBPERIPHCLOCK(SC_USART_CLK, ENABLE);
+//  SC_USART_APBPERIPHCLOCK(SC_USART_CLK, ENABLE);
+  __HAL_RCC_USART1_CLK_ENABLE();//  SC_USART_APBPERIPHCLOCK(SC_USART_CLK, ENABLE);
   
   /* Enable USART IRQ */
   NVIC_InitStructure.NVIC_IRQChannel = SC_USART_IRQn;
@@ -714,16 +706,17 @@ void SC_HardwareInit(void)
   SysTick_Config(SystemCoreClock/1000);
   
   /* Enable GPIO clocks */
-  LL_AHB1_GRP1_EnableClock(SC_USART_TX_GPIO_CLK | SC_3_5V_GPIO_CLK |                        SC_RESET_GPIO_CLK | SC_CMDVCC_GPIO_CLK);
+  LL_AHB1_GRP1_EnableClock(SC_USART_TX_GPIO_CLK | SC_3_5V_GPIO_CLK | SC_RESET_GPIO_CLK | SC_CMDVCC_GPIO_CLK);
   
   /* Enable SYSCFG clock */
-  RCC_APB2PeriphClockCmd(LL_APB1_GRP2_PERIPH_SYSCFG, ENABLE);
+//  RCC_APB2PeriphClockCmd(LL_APB1_GRP2_PERIPH_SYSCFG, ENABLE);
+  __HAL_RCC_SYSCFG_CLK_ENABLE();
   
   /* Connect PXx to SC_USART_TX */
-  GPIO_PinAFConfig(SC_USART_TX_GPIO_PORT, SC_USART_TX_SOURCE, SC_USART_TX_AF);
+//  GPIO_PinAFConfig(SC_USART_TX_GPIO_PORT, SC_USART_TX_SOURCE, SC_USART_TX_AF);
   
   /* Connect PXx to SC_USART_CK */
-  GPIO_PinAFConfig(SC_USART_CK_GPIO_PORT, SC_USART_CK_SOURCE, SC_USART_CK_AF); 
+//  GPIO_PinAFConfig(SC_USART_CK_GPIO_PORT, SC_USART_CK_SOURCE, SC_USART_CK_AF);
   
   /* Configure USART CK pin as alternate function push-pull */
   GPIO_InitStructure.Pin = SC_USART_CK_PIN;
@@ -842,7 +835,7 @@ void SC_PowerCmd(FunctionalState NewState)
   */
 void SC_Reset(BitAction ResetState)
 {
-   GPIO_WriteBit(SC_RESET_GPIO_PORT, SC_RESET_PIN, ResetState);
+  HAL_GPIO_WritePin(SC_RESET_GPIO_PORT, SC_RESET_PIN, ResetState);
 }
 
 /**
