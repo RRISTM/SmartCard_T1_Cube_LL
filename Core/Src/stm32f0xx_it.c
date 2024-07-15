@@ -22,6 +22,7 @@
 #include "stm32f0xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "t1_hal.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,7 +58,8 @@
 /* External variables --------------------------------------------------------*/
 
 /* USER CODE BEGIN EV */
-
+extern __IO uint32_t TimingDelay;
+extern __IO uint32_t CardInserted;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -150,7 +152,14 @@ void EXTI4_15_IRQHandler(void)
   /* USER CODE END EXTI4_15_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(OFF_Pin);
   /* USER CODE BEGIN EXTI4_15_IRQn 1 */
+  /* Smartcard detected */
+  CardInserted = 1;
 
+  /* Enable CMDVCC */
+  SC_PowerCmd(ENABLE);
+
+  /* Reset the card */
+  SC_Reset(0);
   /* USER CODE END EXTI4_15_IRQn 1 */
 }
 
@@ -174,7 +183,8 @@ void DMA1_Channel2_3_IRQHandler(void)
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
-
+  /* Transmit/Receive T=1 blocks*/
+  T1_USART_TxRx_Handler();
   /* USER CODE END USART1_IRQn 0 */
   /* USER CODE BEGIN USART1_IRQn 1 */
 
