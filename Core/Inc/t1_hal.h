@@ -38,7 +38,7 @@
 #include "platform_config.h"
 
 /* Exported constants --------------------------------------------------------*/
-#define SC_CLK_MAX           4000000 /* Clock max in Hz supported by the card */
+#define SC_CLK_MAX           2000000 /* Clock max in Hz supported by the card */
 
 /* Smartcard Voltage */
 #define SC_Voltage_5V        0

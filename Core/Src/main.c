@@ -148,7 +148,7 @@ int main(void)
   /* ---ATR request...--- */
   
   /* Get the answer to reset (ATR) frame from the card */    
-  SC_GetATR(ATR_buf, etu_usec, 17); 
+  SC_GetATR(ATR_buf, etu_usec, ATR_MAX_SIZE);
   
   /* Decode the ATR frame */
   atr_status = ATR_Decode(&atr, &ATR_buf[0], ATR_MAX_SIZE);
@@ -465,7 +465,7 @@ void SystemClock_Config(void)
   {
 
   }
-  LL_RCC_HSI_SetCalibTrimming(16);
+//  LL_RCC_HSI_SetCalibTrimming(16);
   LL_RCC_LSI_Enable();
 
    /* Wait till LSI is ready */

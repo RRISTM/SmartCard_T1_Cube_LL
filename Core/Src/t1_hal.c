@@ -131,7 +131,8 @@ uint32_t SC_USARTConfig(uint32_t* etu_us, uint32_t* baud)
   - Tx and Rx enabled
   - USART Clock enabled
   */
-  
+  /* Disable SC_USART */
+  LL_USART_Disable(SC_USART);
   /* USART Clock set to 4 MHz (PCLK2 (48 MHz) / 12) */
   LL_USART_SetSmartcardPrescaler(SC_USART, usart_presc);
   
@@ -643,6 +644,8 @@ void SC_GetATR(uint8_t *ATR_buffer, uint32_t etu_us, uint32_t max_length)
     {
       /* Read the data while no timeout occured */
       ATR_buffer[i] = data;
+    }else{
+    	break;
     }
   }
   
